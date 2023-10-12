@@ -50,16 +50,15 @@ module ApmTraceable
     #     trace_span('mySpan') { some_heavy_process }
     #   end
     # end
-    def trace_span(resource_name, **options, &block)
-      Datadog::Tracing.trace(trace_name, **options.merge(service: service_name, resource: resource_name), &block)
+    def trace_span(trace_name, **options, &block)
+      ApmTraceable.configuration.adapter.trace(trace_name, context_class: context_class, **options, &block)
     end
 
     private
 
-    def trace_name
-      # include 先のクラス名を利用して `product.search_controller` のような文字列を作る
+    def context_class
       # template から呼び出された場合、 self が ActionView::Base のオブジェクトとなるため controller から生成する
-      (self.class.name || controller.class.name).underscore&.tr('/', '.')
+      self.class || controller.class
     end
 
     def service_name

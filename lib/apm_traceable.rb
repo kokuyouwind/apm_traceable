@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'apm_traceable/adapters/base_adapter'
+require_relative 'apm_traceable/adapters/datadog_adapter'
 require_relative 'apm_traceable/configuration'
 require_relative 'apm_traceable/tracer'
 require_relative 'apm_traceable/version'

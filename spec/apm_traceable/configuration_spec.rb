@@ -15,4 +15,17 @@ RSpec.describe ApmTraceable::Configuration do
       expect(config.service_name).to eq 'service_name'
     end
   end
+
+  describe '#adapter' do
+    it '未設定で参照すると例外を投げる' do
+      expect { config.adapter }.to raise_error(ApmTraceable::Configuration::InsufficientConfigurationError)
+    end
+  end
+
+  describe '#adapter=' do
+    it 'adapterを設定できる' do
+      config.adapter = ApmTraceable::Adapters::BaseAdapter.new
+      expect(config.adapter).to be_a ApmTraceable::Adapters::BaseAdapter
+    end
+  end
 end

@@ -15,6 +15,7 @@ RSpec.describe ApmTraceable::Tracer do
   before do
     ApmTraceable.configure do |config|
       config.service_name = 'test_service_name'
+      config.adapter = ApmTraceable::Adapters::BaseAdapter.new
     end
   end
 
@@ -27,14 +28,13 @@ RSpec.describe ApmTraceable::Tracer do
   end
 
   describe '#trace_span' do
-    it 'Datadog::Tracing#traceを呼び出す' do
-      allow(Datadog::Tracing).to receive(:trace) { |_, &block| block.call }
-      expect(test_object.trace_span(:test_resource, option1: :value1) { 'test' }).to eq 'test'
-      expect(Datadog::Tracing).to have_received(:trace).with(
-        'tracer_test_class',
-        option1: :value1,
-        service: 'test_service_name',
-        resource: :test_resource
+    it 'Adapter#traceを呼び出す' do
+      allow(ApmTraceable.configuration.adapter).to receive(:trace) { |_, &block| block.call }
+      expect(test_object.trace_span('test_name', option1: :value1) { 'test' }).to eq 'test'
+      expect(ApmTraceable.configuration.adapter).to have_received(:trace).with(
+        'test_name',
+        context_class: TracerTestClass,
+        option1: :value1
       )
     end
   end
