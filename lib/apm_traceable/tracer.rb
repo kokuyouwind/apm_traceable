@@ -62,9 +62,8 @@ module ApmTraceable
       (self.class.name || controller.class.name).underscore&.tr('/', '.')
     end
 
-    # TODO: fix
     def service_name
-      'service_name'
+      ApmTraceable.configuration.service_name
     end
   end
 end
