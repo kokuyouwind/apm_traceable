@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'APM Traceable'
   spec.description = 'Tracer to facilitate tracking of method calls, etc. in APM'
-  spec.homepage = 'https://github.com/kokuyouwind/apm-traceable'
+  spec.homepage = 'https://github.com/kokuyouwind/apm_traceable'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 3.0.0'
 
@@ -30,9 +30,6 @@ Gem::Specification.new do |spec|
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
-  spec.add_dependency 'activesupport', '>= 7.1.0'
-  spec.add_dependency 'ddtrace', '~> 1.14.0'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

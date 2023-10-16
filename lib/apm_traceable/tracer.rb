@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'datadog/tracing'
-require 'active_support/inflector'
-
 module ApmTraceable
   # トレース対象クラスにincludeして利用するTracerクラス
   # トレースに利用する以下2メソッドが利用可能になる
