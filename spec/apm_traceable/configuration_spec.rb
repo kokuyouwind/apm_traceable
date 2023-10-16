@@ -14,5 +14,11 @@ RSpec.describe ApmTraceable::Configuration do
       config.adapter = 'stdout'
       expect(config.adapter).to be_a ApmTraceable::Adapters::StdoutAdapter
     end
+
+    it 'オプション引数を渡せる' do
+      allow(ApmTraceable::Adapters::StdoutAdapter).to receive(:new)
+      config.adapter = 'stdout', { key: 'val' }
+      expect(ApmTraceable::Adapters::StdoutAdapter).to have_received(:new).with(key: 'val')
+    end
   end
 end

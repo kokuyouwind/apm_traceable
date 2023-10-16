@@ -9,8 +9,9 @@ module ApmTraceable
       @adapter || raise(InsufficientConfigurationError, 'adapter is not set')
     end
 
-    def adapter=(adapter_name, **options)
-      @adapter = ::ApmTraceable::Adapters.const_get("#{adapter_name.to_s.capitalize}Adapter").new(**options)
+    def adapter=(args)
+      adapter_name, options = args
+      @adapter = ::ApmTraceable::Adapters.const_get("#{adapter_name.to_s.capitalize}Adapter").new(**(options || {}))
     end
   end
 end
