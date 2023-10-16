@@ -1,28 +1,54 @@
 # ApmTraceable
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/apm_traceable`. To experiment with that code, run `bin/console` for an interactive prompt.
+[![Gem Version](https://badge.fury.io/rb/apm_traceable.svg)](https://badge.fury.io/rb/apm_traceable)
+[![Build Status](https://github.com/kokuyouwind/apm_traceable/actions/workflows/main.yml/badge.svg)](https://github.com/kokuyouwind/apm_traceable/actions/workflows/main.yml)
 
-TODO: Delete this and the text above, and describe your gem
+APM で任意区間のトレースを取得するためのライブラリです。
 
 ## Installation
 
-Add this line to your application's Gemfile:
+この Gem と、利用する APM に対応するアダプタの2つを Gemfile に記述します。
 
 ```ruby
 gem 'apm_traceable'
+gem 'apm_traceable-datadog' # Datadogの場合
 ```
 
-And then execute:
+その後、以下を実行してください。
 
     $ bundle install
 
-Or install it yourself as:
+アダプタの設定方法は各 Gem を参照してください。
+組み込みの `ApmTraceable::Adapters::StdoutAdapter` であれば、以下のように設定します。
 
-    $ gem install apm_traceable
+```ruby
+ApmTraceable.configure do |config|
+  config.adapter = 'stdout'
+end
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+トレースを取得するクラスごとに `ApmTraceable::Tracer` を include します。
+
+その後、トレースを取得したいメソッドを `trace_methods` に指定するか、 `trace_span` を利用してブロックを指定します。
+
+```ruby
+class TracerTestClass
+  include ApmTraceable::Tracer
+
+  trace_methods :test_trace_method
+  def test_trace_method
+    'test'
+  end
+
+  def test_trace_span
+    trace_span('test_name', option1: :value1) do 
+      'test'
+    end
+  end
+end
+```
 
 ## Development
 
@@ -32,7 +58,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/apm_traceable.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kokuyouwind/apm_traceable.
 
 ## License
 
