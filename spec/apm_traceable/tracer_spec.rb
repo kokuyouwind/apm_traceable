@@ -15,7 +15,7 @@ RSpec.describe ApmTraceable::Tracer do
   before do
     ApmTraceable.configure do |config|
       config.service_name = 'test_service_name'
-      config.adapter = ApmTraceable::Adapters::BaseAdapter.new
+      config.adapter = 'stdout'
     end
   end
 
@@ -28,9 +28,12 @@ RSpec.describe ApmTraceable::Tracer do
   end
 
   describe '#trace_span' do
-    it 'Adapter#traceを呼び出す' do
-      allow(ApmTraceable.configuration.adapter).to receive(:trace) { |_, &block| block.call }
-      expect(test_object.trace_span('test_name', option1: :value1) { 'test' }).to eq 'test'
+    subject { test_object.trace_span('test_name', option1: :value1) { 'test' } }
+
+    it 'StdoutAdapter#traceを呼び出す' do
+      allow(ApmTraceable.configuration.adapter).to receive(:trace).and_call_original
+      expect { subject }.to output(/TracerTestClass#test_name 0.[0-9]{6}s/).to_stdout
+      expect(subject).to eq('test')
       expect(ApmTraceable.configuration.adapter).to have_received(:trace).with(
         'test_name',
         context_class: TracerTestClass,
