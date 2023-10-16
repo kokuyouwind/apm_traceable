@@ -6,12 +6,10 @@ RSpec.describe ApmTraceable do
   end
 
   describe '.configure' do
-    it '設定値を保持できる' do
+    it 'Adapter設定を保持できる' do
       described_class.configure do |config|
-        config.service_name = 'service_name'
         config.adapter = 'stdout'
       end
-      expect(described_class.configuration.service_name).to eq 'service_name'
       expect(described_class.configuration.adapter).to be_a ApmTraceable::Adapters::StdoutAdapter
     end
   end

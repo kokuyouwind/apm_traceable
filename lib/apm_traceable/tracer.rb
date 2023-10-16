@@ -60,9 +60,5 @@ module ApmTraceable
       # template から呼び出された場合、 self が ActionView::Base のオブジェクトとなるため controller から生成する
       self.class || controller.class
     end
-
-    def service_name
-      ApmTraceable.configuration.service_name
-    end
   end
 end

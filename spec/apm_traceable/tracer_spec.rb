@@ -14,7 +14,6 @@ RSpec.describe ApmTraceable::Tracer do
 
   before do
     ApmTraceable.configure do |config|
-      config.service_name = 'test_service_name'
       config.adapter = 'stdout'
     end
   end
