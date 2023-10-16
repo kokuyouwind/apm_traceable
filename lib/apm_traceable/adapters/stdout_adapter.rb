@@ -11,7 +11,7 @@ module ApmTraceable
         traced_sec = Benchmark.realtime do
           result = block.call
         end
-        puts "#{context_class.name}##{trace_name} #{format('%05.6f', traced_sec)}s"
+        puts "#{context_class&.name}##{trace_name} #{format('%05.6f', traced_sec)}s"
         result
       end
     end

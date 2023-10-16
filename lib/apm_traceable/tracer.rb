@@ -54,8 +54,7 @@ module ApmTraceable
     private
 
     def context_class
-      # template から呼び出された場合、 self が ActionView::Base のオブジェクトとなるため controller から生成する
-      self.class || controller.class
+      self.class
     end
   end
 end
