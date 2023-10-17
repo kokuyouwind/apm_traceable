@@ -24,8 +24,8 @@ module ApmTraceable
         # 計測対象をラップする必要があるため、計測対象メソッドと同名で計測用メソッドを定義したモジュールを生成する
         wrapper = Module.new do
           method_names.each do |method_name|
-            define_method method_name do |*args, **options|
-              trace_span(method_name.to_s) { super(*args, **options) }
+            define_method method_name do |*args, **options, &block|
+              trace_span(method_name.to_s) { super(*args, **options, &block) }
             end
           end
         end
