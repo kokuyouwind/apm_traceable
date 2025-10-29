@@ -27,3 +27,7 @@ RSpec/ExampleLength:
   Max: 20
 RSpec/NamedSubject:
   Enabled: false
+
+# Disable problematic cop that requires EnforcedStyle configuration
+Capybara/RSpec/PredicateMatcher:
+  Enabled: false
